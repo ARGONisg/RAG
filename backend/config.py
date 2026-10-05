@@ -32,5 +32,10 @@ class Settings(BaseSettings):
     # ── Uploads ────────────────────────────────────────────────────────────
     upload_dir: str = "./uploads"
 
+    # ── Mock mode ──────────────────────────────────────────────────────────
+    # When True, the LLM call is simulated with a fake streamer so
+    # the full pipeline is testable without a running Ollama instance.
+    use_mock_llm: bool = True
+
 
 settings = Settings()

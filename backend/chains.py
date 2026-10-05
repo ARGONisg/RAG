@@ -7,6 +7,7 @@ It decides *what* gets sent to the model and *whether* to call it at all.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any, AsyncIterator
 
@@ -116,18 +117,33 @@ async def condense_question(
     if not history:
         return query
 
-    llm = _get_llm(streaming=False)
-    chain = CONDENSE_TEMPLATE | llm
+    # ── Mock mode: simple concatenation ────────────────────────────────
+    if settings.use_mock_llm:
+        last_user = next(
+            (m.content for m in reversed(history) if m.role == "user"),
+            "",
+        )
+        standalone = f"{last_user} {query}".strip()
+        logger.info("[MOCK] Condensed query: %r → %r", query, standalone)
+        return standalone
 
-    result = await chain.ainvoke(
-        {
-            "history": _format_history(history),
-            "question": query,
-        }
-    )
-    standalone = result.content.strip()
-    logger.info("Condensed query: %r → %r", query, standalone)
-    return standalone
+    # ── Real LLM condensation ──────────────────────────────────────────
+    try:
+        llm = _get_llm(streaming=False)
+        chain = CONDENSE_TEMPLATE | llm
+
+        result = await chain.ainvoke(
+            {
+                "history": _format_history(history),
+                "question": query,
+            }
+        )
+        standalone = result.content.strip()
+        logger.info("Condensed query: %r → %r", query, standalone)
+        return standalone
+    except Exception:
+        logger.exception("LLM condensation failed, falling back to raw query")
+        return query
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -162,6 +178,32 @@ async def retrieve_context(
 # ═══════════════════════════════════════════════════════════════════════════
 
 
+def _build_context_block(chunks: list[dict[str, Any]]) -> str:
+    """Format retrieved chunks into a numbered context string."""
+    parts: list[str] = []
+    for idx, chunk in enumerate(chunks, 1):
+        parts.append(
+            f"[{idx}] (source: {chunk['source_file']}, page {chunk['page_number']})\n"
+            f"{chunk['text']}"
+        )
+    return "\n\n".join(parts)
+
+
+async def _mock_stream(question: str, context_block: str) -> AsyncIterator[str]:
+    """
+    Simulate an LLM response by echoing back the context word-by-word.
+    Useful for end-to-end testing without a running Ollama instance.
+    """
+    answer = (
+        f"Based on the provided documents, here is what I found:\n\n"
+        f"{context_block}\n\n"
+        f"This information is sourced directly from the indexed documents."
+    )
+    for word in answer.split(" "):
+        yield word + " "
+        await asyncio.sleep(0.02)  # simulate streaming latency
+
+
 async def stream_answer(
     question: str,
     chunks: list[dict[str, Any]],
@@ -178,21 +220,26 @@ async def stream_answer(
         yield FALLBACK_RESPONSE
         return
 
-    # Build a combined context block from the retrieved chunks.
-    context_parts: list[str] = []
-    for idx, chunk in enumerate(chunks, 1):
-        context_parts.append(
-            f"[{idx}] (source: {chunk['source_file']}, page {chunk['page_number']})\n"
-            f"{chunk['text']}"
-        )
-    context_block = "\n\n".join(context_parts)
+    context_block = _build_context_block(chunks)
 
-    llm = _get_llm(streaming=True)
-    chain = QA_TEMPLATE | llm
-
-    async for event in chain.astream(
-        {"context": context_block, "question": question}
-    ):
-        token = event.content
-        if token:
+    # ── Mock mode ──────────────────────────────────────────────────────
+    if settings.use_mock_llm:
+        logger.info("[MOCK] Streaming fake LLM response")
+        async for token in _mock_stream(question, context_block):
             yield token
+        return
+
+    # ── Real LLM streaming ─────────────────────────────────────────────
+    try:
+        llm = _get_llm(streaming=True)
+        chain = QA_TEMPLATE | llm
+
+        async for event in chain.astream(
+            {"context": context_block, "question": question}
+        ):
+            token = event.content
+            if token:
+                yield token
+    except Exception:
+        logger.exception("LLM streaming failed")
+        yield "I'm sorry, an error occurred while generating the response. Please try again."
