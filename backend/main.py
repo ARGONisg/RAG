@@ -12,10 +12,8 @@ import logging
 import sys
 import traceback
 
-# pyrefly: ignore [missing-import]
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-# pyrefly: ignore [missing-import]
 from fastapi.responses import JSONResponse
 
 from config import settings

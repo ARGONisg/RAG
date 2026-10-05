@@ -10,7 +10,6 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-# pyrefly: ignore [missing-import]
 from fastapi import APIRouter, HTTPException, UploadFile, File, status
 
 from config import settings
