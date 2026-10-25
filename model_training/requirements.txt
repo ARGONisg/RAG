@@ -1,0 +1,16 @@
+# Deep Learning & Parameter-Efficient Fine-Tuning (QLoRA)
+torch>=2.2.0
+transformers>=4.40.0
+datasets>=2.18.0
+accelerate>=0.28.0
+bitsandbytes>=0.43.0
+peft>=0.10.0
+trl>=0.8.6
+
+# Unsloth Fast Backpropagation Kernels
+# Note: For GPU environments (Colab/RunPod/Local Linux), install via:
+# pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
+
+# Inference Client & Utilities
+openai>=1.20.0
+tqdm>=4.66.0
