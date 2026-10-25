@@ -1,0 +1,252 @@
+[
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nProject Titan uses PostgreSQL 16 as its primary relational store and Redis 7.2 for caching session state. Background asynchronous jobs are processed using Celery workers backed by RabbitMQ 3.13.\n\nQuestion:\nWhich message broker is used for background asynchronous jobs in Project Titan?",
+    "output": "RabbitMQ 3.13 is used as the message broker for background asynchronous jobs in Project Titan."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nProject Titan uses PostgreSQL 16 as its primary relational store and Redis 7.2 for caching session state. Background asynchronous jobs are processed using Celery workers backed by RabbitMQ 3.13.\n\nQuestion:\nWhat is the memory limit allocated to the Redis caching instances?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe ingress controller enforces TLS 1.3 termination. Client certificates are verified against the internal root CA, and mutual TLS (mTLS) is mandatory on port 8443.\n\nQuestion:\nOn which port is mutual TLS (mTLS) mandatory?",
+    "output": "Mutual TLS (mTLS) is mandatory on port 8443."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe ingress controller enforces TLS 1.3 termination. Client certificates are verified against the internal root CA, and mutual TLS (mTLS) is mandatory on port 8443.\n\nQuestion:\nWhat algorithm is used to generate the internal root CA key pair?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nKafka cluster retention policy is configured to delete segments older than 7 days or when total topic partition storage exceeds 500 gigabytes.\n\nQuestion:\nUnder what conditions are Kafka topic segments deleted?",
+    "output": "Kafka topic segments are deleted when they are older than 7 days or when the total topic partition storage exceeds 500 gigabytes."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nKafka cluster retention policy is configured to delete segments older than 7 days or when total topic partition storage exceeds 500 gigabytes.\n\nQuestion:\nHow many consumer groups are currently subscribed to the topics?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nEmployees are eligible for up to $2,500 annually in continuing education reimbursement. Coursework must be pre-approved by the department director at least 14 days before enrollment begins.\n\nQuestion:\nHow much annual continuing education reimbursement can an employee receive?",
+    "output": "Employees are eligible for up to $2,500 annually in continuing education reimbursement."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nEmployees are eligible for up to $2,500 annually in continuing education reimbursement. Coursework must be pre-approved by the department director at least 14 days before enrollment begins.\n\nQuestion:\nAre book purchases and software licenses covered under the education reimbursement?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nRemote employees must maintain a minimum broadband download speed of 100 Mbps and upload speed of 20 Mbps. The company provides a monthly internet stipend of $60.\n\nQuestion:\nWhat is the monthly stipend amount provided for remote employee internet?",
+    "output": "The company provides a monthly internet stipend of $60."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nRemote employees must maintain a minimum broadband download speed of 100 Mbps and upload speed of 20 Mbps. The company provides a monthly internet stipend of $60.\n\nQuestion:\nDoes the company reimburse home office standing desks?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nParental leave policy provides 16 consecutive weeks of fully paid leave for primary caregivers following birth or adoption, provided the employee has completed 6 months of continuous service.\n\nQuestion:\nWhat is the required length of service before an employee qualifies for parental leave?",
+    "output": "The employee must have completed 6 months of continuous service."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nParental leave policy provides 16 consecutive weeks of fully paid leave for primary caregivers following birth or adoption, provided the employee has completed 6 months of continuous service.\n\nQuestion:\nHow many weeks of leave are granted to secondary caregivers?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nInvoices unpaid after 30 calendar days incur a late penalty fee of 1.5% per month on the outstanding balance. Payment disputes must be filed within 10 business days of invoice receipt.\n\nQuestion:\nWithin how many business days must invoice disputes be submitted?",
+    "output": "Payment disputes must be filed within 10 business days of invoice receipt."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nInvoices unpaid after 30 calendar days incur a late penalty fee of 1.5% per month on the outstanding balance. Payment disputes must be filed within 10 business days of invoice receipt.\n\nQuestion:\nWhich wire transfer routing number should be used for international payments?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe annual SaaS subscription tier costs $12,000 billed upfront and includes 50 user seats. Additional seats can be purchased in bundles of 5 for $1,000 per year.\n\nQuestion:\nHow much does a bundle of 5 additional user seats cost?",
+    "output": "A bundle of 5 additional user seats costs $1,000 per year."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe annual SaaS subscription tier costs $12,000 billed upfront and includes 50 user seats. Additional seats can be purchased in bundles of 5 for $1,000 per year.\n\nQuestion:\nIs there a discount offered for non-profit organizations?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nCorporate travel expense per diem is capped at $75 per day for domestic travel and $110 per day for international travel. Alcohol purchases are strictly non-reimbursable.\n\nQuestion:\nWhat is the domestic travel per diem cap?",
+    "output": "The per diem cap for domestic travel is $75 per day."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nCorporate travel expense per diem is capped at $75 per day for domestic travel and $110 per day for international travel. Alcohol purchases are strictly non-reimbursable.\n\nQuestion:\nCan employees fly business class on flights longer than 6 hours?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nAll production API keys must be rotated every 90 days. Key rotation is automated through HashiCorp Vault with an automatic rollback triggered if health checks fail within 120 seconds.\n\nQuestion:\nWhat tool manages the automated rotation of production API keys?",
+    "output": "HashiCorp Vault manages the automated rotation of production API keys."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nAll production API keys must be rotated every 90 days. Key rotation is automated through HashiCorp Vault with an automatic rollback triggered if health checks fail within 120 seconds.\n\nQuestion:\nWho is the primary security officer responsible for signing off on manual key overrides?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nData subject access requests (DSAR) under GDPR must be fulfilled within 30 calendar days. Exported archives must be password-protected using AES-256 encryption.\n\nQuestion:\nWhat encryption standard must be used for exported DSAR archives?",
+    "output": "Exported DSAR archives must be password-protected using AES-256 encryption."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nData subject access requests (DSAR) under GDPR must be fulfilled within 30 calendar days. Exported archives must be password-protected using AES-256 encryption.\n\nQuestion:\nWhat is the penalty fee if a DSAR is delivered on day 35?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nCompound VX-409 demonstrated an IC50 of 4.2 nM against epidermal growth factor receptor (EGFR) T790M mutants. Bioavailability in murine models was measured at 68% following oral gavage.\n\nQuestion:\nWhat was the measured bioavailability of Compound VX-409 in murine models?",
+    "output": "The bioavailability of Compound VX-409 in murine models was measured at 68% following oral gavage."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nCompound VX-409 demonstrated an IC50 of 4.2 nM against epidermal growth factor receptor (EGFR) T790M mutants. Bioavailability in murine models was measured at 68% following oral gavage.\n\nQuestion:\nWhat was the observed toxicity profile in non-human primates?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nPatients enrolled in Cohort B received 200 mg of Pembrolizumab administered intravenously once every three weeks for up to 24 months, or until confirmed disease progression.\n\nQuestion:\nHow frequently was Pembrolizumab administered to Cohort B patients?",
+    "output": "Pembrolizumab was administered intravenously once every three weeks."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nPatients enrolled in Cohort B received 200 mg of Pembrolizumab administered intravenously once every three weeks for up to 24 months, or until confirmed disease progression.\n\nQuestion:\nWhat was the median overall survival time recorded for Cohort B?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe Model X-12 industrial drone operates on a 6S 22.2V 16,000mAh LiPo battery. Maximum payload capacity is 4.5 kilograms, with an unloaded flight ceiling of 3,000 meters above sea level.\n\nQuestion:\nWhat is the maximum payload capacity of the Model X-12 drone?",
+    "output": "The maximum payload capacity of the Model X-12 drone is 4.5 kilograms."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe Model X-12 industrial drone operates on a 6S 22.2V 16,000mAh LiPo battery. Maximum payload capacity is 4.5 kilograms, with an unloaded flight ceiling of 3,000 meters above sea level.\n\nQuestion:\nWhat optical camera sensor is integrated into the gimbal?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nCNC Milling Station 4 operates spindle speeds up to 24,000 RPM. Synthetic coolant flood pressure must be calibrated to 30 PSI before milling aerospace-grade 7075 aluminum alloys.\n\nQuestion:\nWhat must the synthetic coolant flood pressure be calibrated to?",
+    "output": "The synthetic coolant flood pressure must be calibrated to 30 PSI."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nCNC Milling Station 4 operates spindle speeds up to 24,000 RPM. Synthetic coolant flood pressure must be calibrated to 30 PSI before milling aerospace-grade 7075 aluminum alloys.\n\nQuestion:\nHow frequently are the tungsten carbide end mills replaced?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe border router BGP session drops if keepalive packets are not acknowledged within 90 seconds. AS path prepending of 3 hops is applied to secondary transit provider Cogent.\n\nQuestion:\nWhat is the keepalive acknowledgement threshold before the BGP session drops?",
+    "output": "The BGP session drops if keepalive packets are not acknowledged within 90 seconds."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe border router BGP session drops if keepalive packets are not acknowledged within 90 seconds. AS path prepending of 3 hops is applied to secondary transit provider Cogent.\n\nQuestion:\nWhat is the router's autonomous system number (ASN)?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nKubernetes cluster production-east runs version 1.29.3. Node auto-scaler triggers when CPU utilization exceeds 75% across three consecutive 60-second polling windows.\n\nQuestion:\nAt what CPU utilization percentage does the node auto-scaler trigger?",
+    "output": "The node auto-scaler triggers when CPU utilization exceeds 75% across three consecutive 60-second polling windows."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nKubernetes cluster production-east runs version 1.29.3. Node auto-scaler triggers when CPU utilization exceeds 75% across three consecutive 60-second polling windows.\n\nQuestion:\nWhich AWS EC2 instance type is used for the worker nodes?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nS3 buckets storing customer telemetry logs have object versioning enabled and a lifecycle transition rule that moves objects to Glacier Flexible Retrieval after 90 days.\n\nQuestion:\nAfter how many days are telemetry log objects transitioned to Glacier Flexible Retrieval?",
+    "output": "Objects are transitioned to Glacier Flexible Retrieval after 90 days."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nS3 buckets storing customer telemetry logs have object versioning enabled and a lifecycle transition rule that moves objects to Glacier Flexible Retrieval after 90 days.\n\nQuestion:\nWhat KMS key ARN is used to encrypt the S3 bucket objects?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nSection 14.2 specifies that either party may terminate this Agreement without cause by providing 60 days prior written notice. Indemnification liability is capped at $5,000,000.\n\nQuestion:\nWhat is the liability cap for indemnification under the agreement?",
+    "output": "The indemnification liability is capped at $5,000,000."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nSection 14.2 specifies that either party may terminate this Agreement without cause by providing 60 days prior written notice. Indemnification liability is capped at $5,000,000.\n\nQuestion:\nWhich state jurisdiction governs any arbitration proceedings?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nNon-disclosure obligations regarding proprietary trade secrets survive termination of this contract for a period of five (5) calendar years.\n\nQuestion:\nFor how long do non-disclosure obligations survive contract termination?",
+    "output": "Non-disclosure obligations survive termination of the contract for a period of five (5) calendar years."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nNon-disclosure obligations regarding proprietary trade secrets survive termination of this contract for a period of five (5) calendar years.\n\nQuestion:\nAre source code snippets considered proprietary trade secrets?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe Europa Clipper spacecraft carries nine science instruments, including the MASPEX spectrometer and the REASON ice-penetrating radar. Its primary power is supplied by two large solar array wings spanning 30.5 meters.\n\nQuestion:\nWhat are two science instruments carried by the Europa Clipper spacecraft?",
+    "output": "The Europa Clipper carries the MASPEX spectrometer and the REASON ice-penetrating radar."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe Europa Clipper spacecraft carries nine science instruments, including the MASPEX spectrometer and the REASON ice-penetrating radar. Its primary power is supplied by two large solar array wings spanning 30.5 meters.\n\nQuestion:\nWhat is the total mass of the spacecraft at launch?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe James Webb Space Telescope operates in a halo orbit around the Sun-Earth Lagrange point 2 (L2), approximately 1.5 million kilometers from Earth. Its primary mirror consists of 18 hexagonal beryllium segments coated in gold.\n\nQuestion:\nHow many hexagonal segments make up the JWST primary mirror?",
+    "output": "The primary mirror consists of 18 hexagonal beryllium segments."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nThe James Webb Space Telescope operates in a halo orbit around the Sun-Earth Lagrange point 2 (L2), approximately 1.5 million kilometers from Earth. Its primary mirror consists of 18 hexagonal beryllium segments coated in gold.\n\nQuestion:\nWhat is the operating temperature of the MIRI instrument cryocooler?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nPerishable dairy shipments require continuous refrigeration between 2°C and 4°C. Data loggers flag a compliance breach if temperature deviates outside this range for longer than 15 consecutive minutes.\n\nQuestion:\nWhat temperature range is required for perishable dairy shipments?",
+    "output": "Perishable dairy shipments require continuous refrigeration between 2°C and 4°C."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nPerishable dairy shipments require continuous refrigeration between 2°C and 4°C. Data loggers flag a compliance breach if temperature deviates outside this range for longer than 15 consecutive minutes.\n\nQuestion:\nWhat is the manufacturer name of the temperature data loggers used?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nWarehouse Bay 12 handles hazardous materials under Class 3 flammable liquids. Maximum storage density is 1,200 liters per fire-containment pallet cell.\n\nQuestion:\nWhat is the maximum storage density per pallet cell in Warehouse Bay 12?",
+    "output": "The maximum storage density is 1,200 liters per fire-containment pallet cell."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nWarehouse Bay 12 handles hazardous materials under Class 3 flammable liquids. Maximum storage density is 1,200 liters per fire-containment pallet cell.\n\nQuestion:\nWhat sprinkler head response rating is installed on Bay 12 ceiling ducts?",
+    "output": "Information not found."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nSolar Farm Alpha has a nameplate capacity of 120 MW DC, connected via two 60 MVA step-up transformers to the 115 kV regional transmission grid. Battery energy storage capacity is 40 MWh.\n\nQuestion:\nWhat is the battery energy storage capacity of Solar Farm Alpha?",
+    "output": "The battery energy storage capacity of Solar Farm Alpha is 40 MWh."
+  },
+  {
+    "instruction": "Answer the user query based ONLY on the provided context. Do not extrapolate, assume, or use prior knowledge. If the answer cannot be determined strictly from the context, reply with: \"Information not found.\"",
+    "input": "Context:\nSolar Farm Alpha has a nameplate capacity of 120 MW DC, connected via two 60 MVA step-up transformers to the 115 kV regional transmission grid. Battery energy storage capacity is 40 MWh.\n\nQuestion:\nWho is the engineering procurement contractor (EPC) for the solar panels?",
+    "output": "Information not found."
+  }
+]

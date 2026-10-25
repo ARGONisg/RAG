@@ -1,0 +1,32 @@
+# Large Model Weights (Do not push to standard Git - GitHub has a 100MB limit)
+*.gguf
+*.bin
+*.safetensors
+*.part
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Training Outputs & Checkpoints
+outputs/
+wandb/
+.ipynb_checkpoints/
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Temporary files
+example modelfile
+*.bak
+*.log
