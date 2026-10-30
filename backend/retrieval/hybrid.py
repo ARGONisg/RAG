@@ -35,28 +35,37 @@ class BM25Index:
             pickle.dump({"corpus": self.corpus}, f)
 
     def add_chunks(self, chunks: list[dict]):
-        self.corpus.extend(chunks)
-        tokenized_corpus = [c["text_content"].lower().split() for c in self.corpus]
-        self.bm25 = BM25Okapi(tokenized_corpus)
-        self.save()
+        existing_ids = {c["chunk_id"] for c in self.corpus}
+        new_chunks = [c for c in chunks if c["chunk_id"] not in existing_ids]
+        if new_chunks:
+            self.corpus.extend(new_chunks)
+            tokenized_corpus = [c["text_content"].lower().split() for c in self.corpus]
+            self.bm25 = BM25Okapi(tokenized_corpus)
+            self.save()
 
-    def search(self, query: str, top_k: int = 10) -> list[dict]:
+    def search(self, query: str, top_k: int = 10, doc_name: str | None = None) -> list[dict]:
         if not self.bm25 or not self.corpus:
             return []
             
         tokenized_query = query.lower().split()
         scores = self.bm25.get_scores(tokenized_query)
         
-        # Get indices of top k scores
-        top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
+        # Get indices sorted by score descending
+        sorted_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
         
         results = []
-        for idx in top_indices:
-            if scores[idx] > 0:
-                results.append({
-                    "chunk_id": self.corpus[idx]["chunk_id"],
-                    "text_content": self.corpus[idx]["text_content"],
-                    "metadata": self.corpus[idx]["metadata"],
-                    "bm25_score": float(scores[idx])
-                })
+        for idx in sorted_indices:
+            if scores[idx] <= 0:
+                continue
+            chunk = self.corpus[idx]
+            if doc_name and chunk.get("metadata", {}).get("source_file") != doc_name:
+                continue
+            results.append({
+                "chunk_id": chunk["chunk_id"],
+                "text_content": chunk["text_content"],
+                "metadata": chunk["metadata"],
+                "bm25_score": float(scores[idx])
+            })
+            if len(results) >= top_k:
+                break
         return results

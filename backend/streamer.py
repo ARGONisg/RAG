@@ -25,12 +25,13 @@ async def sse_stream(
     query: str,
     session_id: str,
     history: list[HistoryMessage],
+    doc_name: str | None = None,
 ) -> AsyncIterator[str]:
     """
     Full orchestration generator consumed by ``EventSourceResponse``.
 
     1.  Condense the query (if history is present).
-    2.  Retrieve & filter context chunks.
+    2.  Retrieve & filter context chunks (isolated to doc_name if provided).
     3.  Stream LLM tokens as SSE ``token`` events.
     4.  Emit a ``citations`` event with source metadata.
     5.  Emit ``[DONE]`` sentinel.
@@ -40,10 +41,10 @@ async def sse_stream(
     """
     # ── 1. Condense ────────────────────────────────────────────────────────
     standalone_query = await condense_question(query, history)
-    logger.info("[%s] standalone query: %s", session_id, standalone_query)
+    logger.info("[%s] standalone query: %s (doc_filter=%s)", session_id, standalone_query, doc_name)
 
     # ── 2. Retrieve ────────────────────────────────────────────────────────
-    chunks = await retrieve_context(standalone_query)
+    chunks = await retrieve_context(standalone_query, doc_name=doc_name)
 
     # ── 3. Stream tokens ───────────────────────────────────────────────────
     async for token in stream_answer(standalone_query, chunks):

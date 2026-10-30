@@ -153,12 +153,14 @@ async def condense_question(
 async def retrieve_context(
     standalone_query: str,
     top_k: int = 3,
+    doc_name: str | None = None,
 ) -> list[dict[str, Any]]:
     """
     Fetch top-k chunks from Member 1's retrieval module and discard any
     that fall below the configured similarity threshold.
+    Restricts search to doc_name if provided.
     """
-    raw_chunks = await get_relevant_context(standalone_query, top_k=top_k)
+    raw_chunks = await get_relevant_context(standalone_query, top_k=top_k, doc_name=doc_name)
 
     threshold = settings.similarity_threshold
     filtered = [c for c in raw_chunks if c["score"] >= threshold]

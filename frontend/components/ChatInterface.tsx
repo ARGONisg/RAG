@@ -268,6 +268,7 @@ export function ChatInterface() {
         body: JSON.stringify({
           query: text,
           session_id: sessionId,
+          doc_name: currentDoc,
           history,
         }),
       });

@@ -22,6 +22,7 @@ class ChatRequest(BaseModel):
 
     query: str = Field(..., min_length=1, description="The user's current question.")
     session_id: str = Field(..., description="Unique session identifier for multi-turn context.")
+    doc_name: str | None = Field(default=None, description="Active document filename to restrict retrieval.")
     history: list[HistoryMessage] = Field(
         default_factory=list,
         description="Previous conversation turns (oldest first).",

@@ -57,13 +57,14 @@ def index_document(file_path: str) -> dict:
         "chunks_indexed": len(processed_chunks)
     }
 
-def get_relevant_context(query: str, top_k: int = 4) -> List[Dict]:
+def get_relevant_context(query: str, top_k: int = 4, doc_name: str | None = None) -> List[Dict]:
     """
     Retrieves candidates using Hybrid Search (Vector + BM25), fuses them, 
     and rescores with a Cross-Encoder.
+    Optionally filters by doc_name (source_file) to isolate retrieval to a specific document.
     """
-    # 1. Retrieve top-10 candidates from Vector DB
-    vec_results_raw = vector_store.search(query, top_k=10)
+    # 1. Retrieve top-10 candidates from Vector DB (restricted to doc_name if provided)
+    vec_results_raw = vector_store.search(query, top_k=10, doc_name=doc_name)
     
     candidate_pool = {}
     
@@ -84,8 +85,8 @@ def get_relevant_context(query: str, top_k: int = 4) -> List[Dict]:
                 "bm25_score": 0.0
             }
             
-    # 3. Retrieve and process top-10 from BM25
-    bm25_results = bm25_index.search(query, top_k=10)
+    # 3. Retrieve and process top-10 from BM25 (restricted to doc_name if provided)
+    bm25_results = bm25_index.search(query, top_k=10, doc_name=doc_name)
     bm25_scores = [r["bm25_score"] for r in bm25_results]
     norm_bm25_scores = _normalize_scores(bm25_scores)
     

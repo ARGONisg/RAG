@@ -97,26 +97,21 @@ _MOCK_CHUNKS: list[dict[str, Any]] = [
 async def get_relevant_context(
     query: str,
     top_k: int = 3,
+    doc_name: str | None = None,
 ) -> list[dict[str, Any]]:
     """
     Simulate Member 1's `get_relevant_context(query)`.
-
-    In production this would:
-      1.  Embed the *standalone* query.
-      2.  Vector-search ChromaDB for the top-k nearest chunks.
-      3.  Return each chunk with its text, source metadata, and similarity score.
-
-    Returns:
-        A list of dicts, each containing:
-            - text (str)
-            - source_file (str)
-            - page_number (int)
-            - score (float)  — cosine similarity in [0, 1]
     """
     await asyncio.sleep(0.15)
 
+    corpus = _MOCK_CHUNKS
+    if doc_name:
+        filtered = [c for c in corpus if c.get("source_file") == doc_name]
+        if filtered:
+            corpus = filtered
+
     # Pick a random subset of the mock corpus and assign fake scores.
-    selected = random.sample(_MOCK_CHUNKS, k=min(top_k, len(_MOCK_CHUNKS)))
+    selected = random.sample(corpus, k=min(top_k, len(corpus)))
     results: list[dict[str, Any]] = []
     for chunk in selected:
         results.append(

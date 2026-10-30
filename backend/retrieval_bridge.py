@@ -50,9 +50,11 @@ async def index_document(filepath: Path) -> int:
 async def get_relevant_context(
     query: str,
     top_k: int | None = None,
+    doc_name: str | None = None,
 ) -> list[dict[str, Any]]:
     """
     Retrieve top relevant context chunks for a given standalone query.
+    Optionally isolates retrieval strictly to doc_name.
     
     Adapts the output schema from retrieval.engine to the unified contract:
       - text: str
@@ -64,13 +66,15 @@ async def get_relevant_context(
 
     if settings.use_mock_retrieval:
         from mock_services import get_relevant_context as mock_get_context
-        return await mock_get_context(query, top_k=effective_top_k)
+        return await mock_get_context(query, top_k=effective_top_k, doc_name=doc_name)
 
     try:
         from retrieval.engine import get_relevant_context as real_get_context
 
         # Offload vector search, BM25 & cross-encoder reranking to thread pool
-        raw_candidates = await asyncio.to_thread(real_get_context, query, top_k=effective_top_k)
+        raw_candidates = await asyncio.to_thread(
+            real_get_context, query, top_k=effective_top_k, doc_name=doc_name
+        )
         
         adapted_chunks: list[dict[str, Any]] = []
         for c in raw_candidates:

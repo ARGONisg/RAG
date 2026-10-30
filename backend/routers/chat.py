@@ -48,6 +48,7 @@ async def chat(request: ChatRequest):
             query=request.query,
             session_id=request.session_id,
             history=request.history,
+            doc_name=request.doc_name,
         ),
         media_type="text/event-stream",
     )
