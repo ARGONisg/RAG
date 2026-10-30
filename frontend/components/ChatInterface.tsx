@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, Loader2, PanelLeft, FileText, Sun, Moon, Square, ArrowDown } from "lucide-react";
-import { Message, Citation } from "@/types";
+import { Message, Citation, ChatSession } from "@/types";
 import { ChatMessage } from "./ChatMessage";
 import { EmptyState } from "./EmptyState";
 import { FileUpload } from "./FileUpload";
@@ -10,6 +10,9 @@ import { CitationDrawer } from "./CitationDrawer";
 import { Sidebar } from "./Sidebar";
 
 export function ChatInterface() {
+  const [sessions, setSessions] = useState<ChatSession[]>([]);
+  const [sessionCounter, setSessionCounter] = useState<number>(1);
+  const [sessionId, setSessionId] = useState<string>(() => crypto.randomUUID());
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,13 +20,60 @@ export function ChatInterface() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [currentDoc, setCurrentDoc] = useState<string | null>(null);
   const [showUpload, setShowUpload] = useState(false);
-  const [sessionId, setSessionId] = useState<string>(() => crypto.randomUUID());
   const [activeCitation, setActiveCitation] = useState<Citation | null>(null);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const [showScrollDown, setShowScrollDown] = useState(false);
+
+  // Load chat sessions from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedSessions = localStorage.getItem("docrag_chat_sessions");
+      const savedCounter = localStorage.getItem("docrag_chat_counter");
+      if (savedCounter) {
+        setSessionCounter(parseInt(savedCounter, 10) || 1);
+      }
+      if (savedSessions) {
+        const parsed: ChatSession[] = JSON.parse(savedSessions);
+        if (parsed.length > 0) {
+          setSessions(parsed);
+          setSessionId(parsed[0].id);
+          setMessages(parsed[0].messages || []);
+          setCurrentDoc(parsed[0].currentDoc || null);
+          return;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load chat sessions from localStorage", err);
+    }
+  }, []);
+
+  // Save chat sessions to localStorage
+  useEffect(() => {
+    if (sessions.length > 0) {
+      localStorage.setItem("docrag_chat_sessions", JSON.stringify(sessions));
+    } else {
+      localStorage.removeItem("docrag_chat_sessions");
+    }
+  }, [sessions]);
+
+  // Save counter to localStorage
+  useEffect(() => {
+    localStorage.setItem("docrag_chat_counter", sessionCounter.toString());
+  }, [sessionCounter]);
+
+  // Sync messages & currentDoc to active session in sessions list
+  useEffect(() => {
+    if (messages.length > 0) {
+      setSessions((prev) =>
+        prev.map((s) =>
+          s.id === sessionId ? { ...s, messages, currentDoc } : s
+        )
+      );
+    }
+  }, [messages, currentDoc, sessionId]);
 
   const stopGeneration = () => {
     if (abortControllerRef.current) {
@@ -77,22 +127,59 @@ export function ChatInterface() {
   const handleUploadSuccess = (filename: string, chunksIndexed: number) => {
     setCurrentDoc(filename);
     setShowUpload(false);
-    // Optional: Add a system message about successful upload
+    setSessions((prev) =>
+      prev.map((s) => (s.id === sessionId ? { ...s, currentDoc: filename } : s))
+    );
   };
 
   const startNewChat = () => {
     stopGeneration();
-    setMessages([]);
     setSessionId(crypto.randomUUID());
+    setMessages([]);
     setActiveCitation(null);
   };
 
+  const handleSelectSession = (id: string) => {
+    if (id === sessionId) return;
+    stopGeneration();
+    const target = sessions.find((s) => s.id === id);
+    if (target) {
+      setSessionId(target.id);
+      setMessages(target.messages || []);
+      setCurrentDoc(target.currentDoc || null);
+      setActiveCitation(null);
+    }
+    if (window.innerWidth < 768) {
+      setIsSidebarOpen(false);
+    }
+  };
+
+  const handleDeleteSession = (id: string) => {
+    const remaining = sessions.filter((s) => s.id !== id);
+    setSessions(remaining);
+    if (id === sessionId) {
+      if (remaining.length > 0) {
+        setSessionId(remaining[0].id);
+        setMessages(remaining[0].messages || []);
+        setCurrentDoc(remaining[0].currentDoc || null);
+      } else {
+        startNewChat();
+      }
+    }
+  };
+
+  const handleRenameSession = (id: string, newTitle: string) => {
+    setSessions((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, title: newTitle } : s))
+    );
+  };
+
   const handleRegenerate = (messageToRegenerate: Message) => {
-    const index = messages.findIndex(m => m.id === messageToRegenerate.id);
+    const index = messages.findIndex((m) => m.id === messageToRegenerate.id);
     if (index > 0) {
       const prevMessage = messages[index - 1];
       if (prevMessage.role === 'user') {
-        setMessages(prev => prev.slice(0, index));
+        setMessages((prev) => prev.slice(0, index));
         sendMessage(prevMessage.content);
       }
     }
@@ -106,27 +193,27 @@ export function ChatInterface() {
     }
   };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" && !e.shiftKey) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input);
+    }
+  };
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key.toLowerCase() === 'b') {
         e.preventDefault();
-        sendMessage(input);
+        setIsSidebarOpen((prev) => !prev);
+      }
+      if (e.key === 'Escape' && activeCitation) {
+        e.preventDefault();
+        setActiveCitation(null);
       }
     };
-
-    useEffect(() => {
-      const handleGlobalKeyDown = (e: KeyboardEvent) => {
-        if (e.ctrlKey && e.key.toLowerCase() === 'b') {
-          e.preventDefault();
-          setIsSidebarOpen(prev => !prev);
-        }
-        if (e.key === 'Escape' && activeCitation) {
-          e.preventDefault();
-          setActiveCitation(null);
-        }
-      };
-      window.addEventListener('keydown', handleGlobalKeyDown);
-      return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-    }, [activeCitation]);
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [activeCitation]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
@@ -137,18 +224,35 @@ export function ChatInterface() {
       content: text.trim(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const assistantMessageId = crypto.randomUUID();
+    const assistantMessage: Message = {
+      id: assistantMessageId,
+      role: "assistant",
+      content: "",
+      citations: [],
+    };
+
+    // Auto-create Chat 1, Chat 2, etc. in Recent Chats when a chat starts
+    const sessionExists = sessions.some((s) => s.id === sessionId);
+    if (!sessionExists) {
+      const title = `Chat ${sessionCounter}`;
+      const newSession: ChatSession = {
+        id: sessionId,
+        title,
+        messages: [userMessage, assistantMessage],
+        currentDoc,
+        createdAt: Date.now(),
+      };
+      setSessions((prev) => [newSession, ...prev]);
+      setSessionCounter((prev) => prev + 1);
+    }
+
+    setMessages((prev) => [...prev, userMessage, assistantMessage]);
     setInput("");
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
     setIsLoading(true);
-
-    const assistantMessageId = crypto.randomUUID();
-    setMessages((prev) => [
-      ...prev,
-      { id: assistantMessageId, role: "assistant", content: "", citations: [] },
-    ]);
 
     const controller = new AbortController();
     abortControllerRef.current = controller;
@@ -233,6 +337,8 @@ export function ChatInterface() {
     }
   };
 
+  const activeSession = sessions.find((s) => s.id === sessionId);
+
   return (
     <div className="flex h-screen bg-background text-text-primary overflow-hidden">
       {/* Mobile Sidebar Backdrop */}
@@ -243,11 +349,17 @@ export function ChatInterface() {
         />
       )}
 
+      {/* Sidebar with Recent Chats */}
       <Sidebar 
+        sessions={sessions}
+        currentSessionId={sessionId}
+        onSelectSession={handleSelectSession}
         onNewChat={() => {
           startNewChat();
           if (window.innerWidth < 768) setIsSidebarOpen(false);
-        }} 
+        }}
+        onDeleteSession={handleDeleteSession}
+        onRenameSession={handleRenameSession}
         isOpen={isSidebarOpen}
       />
 
@@ -268,7 +380,12 @@ export function ChatInterface() {
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <h2 className="text-lg font-semibold md:hidden">DOCrag</h2>
+
+            {/* Current Chat Title */}
+            <span className="text-sm font-semibold text-text-primary hidden sm:inline-block">
+              {activeSession ? activeSession.title : `Chat ${sessionCounter}`}
+            </span>
+
             {currentDoc && (
               <div className="flex items-center gap-2 text-sm text-text-primary bg-surface-02 border border-border-subtle px-3 py-1.5 rounded-full max-w-[200px] md:max-w-[400px] transition-all">
                 <FileText size={14} className="shrink-0 text-text-secondary" />
@@ -313,37 +430,30 @@ export function ChatInterface() {
               ))}
               {isLoading && messages[messages.length - 1]?.role === "user" && (
                 <div className="py-6 flex justify-start">
-                  <div className="flex items-center gap-2 text-text-secondary">
-                    <Loader2 className="animate-spin" size={16} />
-                    <span className="text-sm font-medium">Thinking...</span>
+                  <div className="flex items-center gap-2 text-text-muted text-sm italic">
+                    <Loader2 size={16} className="animate-spin text-primary" />
+                    Searching relevant context and generating response...
                   </div>
                 </div>
               )}
               <div ref={messagesEndRef} />
             </div>
           )}
+
+          {showScrollDown && (
+            <button
+              onClick={scrollToBottom}
+              className="absolute bottom-28 right-8 p-2 rounded-full bg-surface-02 border border-border-subtle text-text-secondary hover:text-text-primary shadow-lg hover:bg-surface-03 transition-all z-10"
+              aria-label="Scroll to bottom"
+            >
+              <ArrowDown size={18} />
+            </button>
+          )}
         </main>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent pt-10 pb-6 px-4 md:px-8">
-          {showScrollDown && (
-            <div className="absolute -top-12 left-1/2 -translate-x-1/2">
-              <button 
-                onClick={() => { setShowScrollDown(false); scrollToBottom(); }}
-                className="flex items-center gap-1.5 bg-surface-03/90 hover:bg-surface-03 text-text-primary border border-border-subtle backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium shadow-lg transition-all"
-              >
-                <ArrowDown size={14} />
-                Latest
-              </button>
-            </div>
-          )}
-          <div className="max-w-4xl mx-auto w-full relative">
-            {currentDoc && (
-              <div className="flex items-center gap-1.5 text-xs text-text-muted mb-2 px-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Answering from your document
-              </div>
-            )}
-            <div className="bg-surface-02 border border-border-subtle hover:border-border-active focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 rounded-2xl flex items-end p-1.5 transition-all shadow-sm">
+        <div className="border-t border-border-subtle bg-background p-4 relative z-0">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative flex items-end bg-surface-01 border border-border-subtle rounded-2xl p-2 focus-within:border-primary/50 transition-all shadow-sm">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -352,21 +462,23 @@ export function ChatInterface() {
                   adjustTextareaHeight();
                 }}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask anything about your document..."
-                className="w-full max-h-[200px] bg-transparent border-none focus:outline-none resize-none px-3 py-2.5 text-text-primary placeholder:text-text-muted disabled:opacity-50"
+                placeholder={currentDoc ? `Ask about "${currentDoc}"...` : "Upload a document to ask questions..."}
                 rows={1}
                 disabled={isLoading}
+                className="w-full bg-transparent border-0 focus:outline-none resize-none px-3 py-2 text-text-primary placeholder:text-text-muted text-[15px] max-h-48"
               />
               {isLoading ? (
                 <button
+                  type="button"
                   onClick={stopGeneration}
-                  className="mb-0.5 mr-0.5 p-2.5 bg-surface-03 text-text-primary rounded-xl hover:bg-border-subtle transition-colors shrink-0 flex items-center justify-center"
-                  title="Stop generating"
+                  className="mb-0.5 mr-0.5 p-2.5 bg-surface-02 border border-border-subtle text-text-primary rounded-xl hover:bg-surface-03 transition-colors shrink-0"
+                  title="Stop generation"
                 >
-                  <Square size={18} fill="currentColor" />
+                  <Square size={16} className="fill-current text-primary" />
                 </button>
               ) : (
                 <button
+                  type="button"
                   onClick={() => sendMessage(input)}
                   disabled={!input.trim()}
                   className="mb-0.5 mr-0.5 p-2.5 bg-primary text-white rounded-xl disabled:bg-transparent disabled:text-text-muted hover:bg-primary-hover transition-colors shrink-0"

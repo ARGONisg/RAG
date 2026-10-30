@@ -11,3 +11,11 @@ export type Message = {
   content: string;
   citations?: Citation[];
 };
+
+export type ChatSession = {
+  id: string;
+  title: string;
+  messages: Message[];
+  currentDoc: string | null;
+  createdAt: number;
+};
