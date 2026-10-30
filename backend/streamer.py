@@ -15,7 +15,7 @@ import logging
 from typing import Any, AsyncIterator
 
 from chains import condense_question, retrieve_context, stream_answer
-from mock_services import chunks_to_citations
+from retrieval_bridge import chunks_to_citations
 from schemas import CitationsEvent, HistoryMessage, TokenEvent
 
 logger = logging.getLogger(__name__)

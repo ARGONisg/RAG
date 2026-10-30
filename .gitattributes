@@ -1,0 +1,38 @@
+# ==============================================================================
+# DOCrag .gitattributes
+# Ensure consistent line endings and binary file handling across platforms
+# ==============================================================================
+
+# Default line endings: LF
+* text=auto eol=lf
+
+# Code files: force LF
+*.py text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+.gitignore text eol=lf
+.env.example text eol=lf
+
+# Binary files: prevent git from attempting diff or line-ending conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.pkl binary
+*.gguf binary
+*.safetensors binary
+*.bin binary
+*.pt binary
+*.pth binary
+

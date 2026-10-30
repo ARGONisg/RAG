@@ -156,7 +156,8 @@ export function ChatInterface() {
     try {
       const history = messages.map(({ role, content }) => ({ role, content }));
       
-      const response = await fetch("http://localhost:8000/api/v1/chat", {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+      const response = await fetch(`${apiBase}/api/v1/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: controller.signal,

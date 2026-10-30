@@ -1,7 +1,14 @@
 from sentence_transformers import CrossEncoder
 
 class Reranker:
-    def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"):
+    def __init__(self, model_name: str | None = None):
+        if not model_name:
+            try:
+                from config import settings
+                model_name = settings.reranker_model_name
+            except Exception:
+                model_name = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+
         # The CrossEncoder computes a highly accurate similarity score
         # by passing the query and the document simultaneously into the transformer network.
         self.model = CrossEncoder(model_name)

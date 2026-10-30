@@ -1,0 +1,7 @@
+# ==============================================================================
+# DOCrag Root Requirements
+# References the complete backend & retrieval dependencies
+# ==============================================================================
+
+-r backend/requirements.txt
+

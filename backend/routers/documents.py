@@ -13,7 +13,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, UploadFile, File, status
 
 from config import settings
-from mock_services import index_document
+from retrieval_bridge import index_document
 from schemas import UploadResponse
 
 logger = logging.getLogger(__name__)

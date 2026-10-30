@@ -3,7 +3,14 @@ import os
 from rank_bm25 import BM25Okapi
 
 class BM25Index:
-    def __init__(self, index_path: str = "./chroma_db/bm25_index.pkl"):
+    def __init__(self, index_path: str | None = None):
+        if not index_path:
+            try:
+                from config import settings
+                index_path = os.path.join(settings.chroma_persist_dir, "bm25_index.pkl")
+            except Exception:
+                index_path = "./chroma_db/bm25_index.pkl"
+
         self.index_path = index_path
         self.corpus = []
         self.bm25 = None

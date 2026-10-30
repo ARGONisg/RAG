@@ -1,4 +1,4 @@
-import { Plus, MessageSquare, Edit2 } from "lucide-react";
+import { Plus } from "lucide-react";
 
 interface SidebarProps {
   onNewChat: () => void;
@@ -35,29 +35,9 @@ export function Sidebar({ onNewChat, isOpen }: SidebarProps) {
       <div className={`px-4 pb-4 flex-1 overflow-y-auto ${!isOpen ? "items-center" : ""}`}>
         {isOpen && <h2 className="text-xs font-semibold text-text-muted mb-3 uppercase tracking-wider">Recent Chats</h2>}
         <div className="space-y-1">
-          {/* Static placeholders */}
-          <button title="What is this document about?" className={`w-full text-left flex items-center gap-2 py-2 rounded-lg hover:bg-surface-03 bg-surface-02/50 text-text-primary hover:-translate-y-[1px] transition-all group relative ${isOpen ? "px-3" : "justify-center px-0 h-10"}`}>
-            <MessageSquare size={16} className="text-primary transition-colors shrink-0" />
-            {isOpen && (
-              <>
-                <span className="text-sm truncate flex-1 pr-6">What is this document about?</span>
-                <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Edit2 size={14} className="text-text-muted hover:text-text-primary" />
-                </div>
-              </>
-            )}
-          </button>
-          <button title="Explain the methodology" className={`w-full text-left flex items-center gap-2 py-2 rounded-lg hover:bg-surface-03 text-text-secondary hover:text-text-primary hover:-translate-y-[1px] transition-all group relative ${isOpen ? "px-3" : "justify-center px-0 h-10"}`}>
-            <MessageSquare size={16} className="text-text-muted group-hover:text-primary transition-colors shrink-0" />
-            {isOpen && (
-              <>
-                <span className="text-sm truncate flex-1 pr-6">Explain the methodology</span>
-                <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Edit2 size={14} className="text-text-muted hover:text-text-primary" />
-                </div>
-              </>
-            )}
-          </button>
+          {isOpen && (
+            <p className="text-xs text-text-muted px-2 py-1 italic">No recent chats</p>
+          )}
         </div>
       </div>
     </div>

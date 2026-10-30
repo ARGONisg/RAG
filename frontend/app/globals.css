@@ -48,6 +48,13 @@
   --color-text-muted: var(--text-muted);
 }
 
+/* Hide Next.js development toast / issue indicator badge */
+nextjs-portal,
+[data-nextjs-dev-indicator],
+[data-nextjs-toast] {
+  display: none !important;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);

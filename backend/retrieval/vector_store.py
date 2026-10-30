@@ -3,14 +3,25 @@ from chromadb.utils import embedding_functions
 import os
 
 class VectorStore:
-    def __init__(self, persist_directory: str = "./chroma_db"):
+    def __init__(self, persist_directory: str | None = None):
+        if not persist_directory:
+            try:
+                from config import settings
+                persist_directory = settings.chroma_persist_dir
+                model_name = settings.embedding_model_name
+            except Exception:
+                persist_directory = "./chroma_db"
+                model_name = "all-MiniLM-L6-v2"
+        else:
+            model_name = "all-MiniLM-L6-v2"
+
         os.makedirs(persist_directory, exist_ok=True)
         # Initialize persistent ChromaDB local client
         self.client = chromadb.PersistentClient(path=persist_directory)
         
         # Use sentence-transformers embedding model
         self.embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
+            model_name=model_name
         )
         
         # Get or create our RAG collection

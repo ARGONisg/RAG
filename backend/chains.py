@@ -16,7 +16,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
 from config import settings
-from mock_services import get_relevant_context
+from retrieval_bridge import get_relevant_context
 from schemas import HistoryMessage
 
 logger = logging.getLogger(__name__)
@@ -42,13 +42,12 @@ CONDENSE_TEMPLATE = ChatPromptTemplate.from_messages(
 )
 
 QA_SYSTEM_PROMPT = (
-    "You are a precise document-grounded Q&A assistant.\n\n"
+    "You are a strictly grounded Retrieval-Augmented Generation (RAG) assistant.\n\n"
     "RULES:\n"
     "1. Answer ONLY based on the provided context below.\n"
-    "2. If the context does not contain the answer, respond EXACTLY with: "
-    "'I'm sorry, the information was not found in the provided documents.'\n"
-    "3. Do NOT fabricate, speculate, or use prior knowledge.\n"
-    "4. Cite specific sections when possible.\n\n"
+    "2. If the context does not contain the answer, respond EXACTLY with: 'Information not found.'\n"
+    "3. Do NOT extrapolate, speculate, or use prior knowledge.\n"
+    "4. Cite specific sources and page numbers when available.\n\n"
     "Context:\n"
     "---\n"
     "{context}\n"
